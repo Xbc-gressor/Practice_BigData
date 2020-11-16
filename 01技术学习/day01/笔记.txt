@@ -1,0 +1,9 @@
+1. 设置ip过程：
+	1. 查看ip： ip addr
+	2. cd /etc/sysconfig/network-scripts
+	3. BOOTPROTO=dhcp|static 静态ip地址
+
+2. 所用到的软件：
+	VirtualBox： 虚拟机软件 				D:VirtualBox
+	hadoop: Linux操作系统 				D:Linux_
+	smarTTY: 优化界面版Linux				D:smarTTY
