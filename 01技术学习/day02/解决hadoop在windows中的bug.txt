@@ -1,0 +1,9 @@
+1.将hadoop.dll文件 放入c:\windows\System32
+
+2.把winutils.exe 和hadoop.dll文件放入F:\spark\8.6东软大数据\tools\hadoop-2.7.2\bin
+3.修改环境变量：
+修改path,添加F:\spark\8.6东软大数据\tools\hadoop-2.7.2\bin
+
+//hadoop运行环境和window有些问题，可以使用这行代码
+4.在主函数中添加一行代码：
+System.setProperty("hadoop.home.dir", "E:\\hadoop\\hadoop-2.7.2\\hadoop-2.7.2");
