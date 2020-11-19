@@ -1,0 +1,102 @@
+查看hdfs的文件系统
+hdfs dfs -ls /
+
+上传文件到hdfs
+hdfs dfs -put 本地文件 /hdfs的目录
+
+删除文件
+hdfs dfs -rm  /hdfs的文件
+
+
+jdk1.8
+eclipse
+hadoop插件
+
+1.安装jdk1.8
+2.把插件放入eclipse中的plugins文件夹中
+3.解压hadoop2.7.2
+4.配置hadoop文件路径
+5.新建mapreduce项目
+
+
+mapreduce简单理解
+MapReduce其实是两个部分，分别是Map和Reduce，其核心思想在于分工而治。简单来说就是先将数据
+分为无数个小块，然后再分别处理每个小块，最后将每个小块汇总。
+
+这里举个简单的例子帮助理解。假如有1000张钞票，
+其中面值有1块、5块、10块、20块、50块和100块不等，
+这时需要计算出这1000张钞票一共有多少钱，请问如何计算呢？
+最直接的做法就是一张一张数，然后相加，但是这样只能由一个人来操作，因此效率是非常低下的。
+比较好的做法就是先划分6个区域，每个区域块分别存放不同面值的钞票，
+分完块之后再计算出每堆钞票的数量，最后汇总相加得出结果，
+这样的做法最大的好处就是可以多人分工处理。而MapReduce正是采取的这种方式。
+
+首先1000张钞票先进入Map阶段，也就是先分片。假设一共分出5个进程(5个人同时处理)来处理Map阶段的数据，
+那么就是每个进程处理200张钞票，处理完毕后，每个进程都会得出6个区域块。
+这时将这5个进程的区域块合并，就会得出总的6个区域块。然后进入reduce阶段，
+reduce也会采取多进程模式，假设分出6个进程来处理reduce阶段的数据。
+每个进程处理一个区域块，这时就会得到6个区域块的结果，也就是6个面值的钞票分别有多少，
+然后将其汇总，得出结果。
+
+以1块面值的举例，一共有6张面值为1块的钞票。如果有2个map进程同时运行，那么这两个map进程可能运行的结果如下：
+
+Map进程1：(1,1)(1,1)(1,1)(1,1)
+
+Map进程2：(1,1)(1,1)
+
+这时这两个map进程会将结果传入处理面值1块的reduce进程中，最终的结果就会是：
+
+(1,6)，表示一共6张1块的。
+
+
+
+
+ 在map阶段，由map函数会接受一个如<key,value>形式的输入，
+ 然后产生一个<key, value>形式的中间输出。Hadoop会将所有具有相同key值的<key, value>输入集合（combine）到一起，
+ 传递给第二阶段的reduce函数，所以reduce 函数看到的将不是<key, value>，
+ 而是<key, list of values>。第二阶段的reduce 函数会对这个每个<key, list of values>进行处理，
+ 然后选择产生0个或1个最终的<key, value>输出。
+
+
+
+
+
+wordcount
+使用mapreduce来统计某个文本中单词出现的次数
+测试数据：
+hello world
+hello china
+hello china
+
+
+创建一个类wordcount(测试类main方法)，由于一个mapreduce程序是由map(拆分)和reduce(合并)阶段完成的，
+所以我们需要创建map类和reduce类，也就是说要完成单词计数功能需要3个类来完成
+一般来说我们在一个类中来创建map类和reduce类
+
+map阶段(拆分): 根据单词进行分组，把每个单词都转换为键值对形式
+(hello,1)  (world,1) 
+(hello,1)  (china,1) 
+(hello,1)  (china,1) 
+
+shuffle:排序和分组：
+按照key升序排序：(china,1) (china,1) (hello,1)  (hello,1)  (hello,1) (world,1) 
+
+分组：相同键的值放入在一个集合中
+
+(china,(1,1)),(hello,(1,1,1)),(world,(1))
+
+reduce阶段(合并汇总)(china,(1+1)),(hello,(1+1+1)),(world,(1))
+
+reduce输出结果：(china,2),(hello,3),(world,1)
+
+最终结果：
+hello,3
+china,2
+world 1
+
+
+
+hello world
+hello china
+hello china
+
