@@ -1,4 +1,4 @@
-package CountWords;
+package com.demo;
 
 import java.io.IOException;
 import org.apache.hadoop.conf.Configuration;
@@ -13,7 +13,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
-public class WordCount {
+public class WordCount {						      // KEYIN, VALUEIN, KEYOUT, VALUEOUT
+												      //    偏移量    输入    输出
 	public static class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritable> {
 		/*
 		 测试数据：
@@ -35,7 +36,7 @@ public class WordCount {
 			// 最后map的输出格式，按照key升序排序，(China, 1) (China, 1) (hello, 1) (hello, 1) (hello, 1) (world, 1)
 		}
 	}
-	
+
 	public static class WordCountReducer extends Reducer<Text, IntWritable, Text, IntWritable> {
 		public void reduce(Text key, Iterable<IntWritable> values, Context context)
 			throws IOException, InterruptedException {
@@ -46,8 +47,13 @@ public class WordCount {
 			}
 			context.write(key, new IntWritable(sum));
 		}
+
+		@Override
+		protected void cleanup(Context context) throws IOException, InterruptedException {
+			super.cleanup(context);
+		}
 	}
-	
+
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		// 添加这行代码，避windows坑
 		System.setProperty("hadoop.home.dir", "D:\\Fighting\\otherSubject\\AI\\计科实训_大数据\\资料\\hadoop-2.7.2");
@@ -56,22 +62,22 @@ public class WordCount {
 		Job job = Job.getInstance(conf, "WordCount");
 		// 指定main方法所在的类
 		job.setJarByClass(WordCount.class);
-		
+
 		// 指定本业务job索要使用的mapper业务类
 		job.setMapperClass(WordCountMapper.class);
 		// 指定，mapper输出的数据的key-value类型
 		job.setMapOutputKeyClass(Text.class);
-		job.setOutputValueClass(IntWritable.class);
-		
+		job.setMapOutputValueClass(IntWritable.class);
+
 		// 指定本业务要使用的Reducer业务类
 		job.setReducerClass(WordCountReducer.class);
 		// 指定最终的输出的数据kv类型
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
-		
+
 		FileSystem fs = FileSystem.get(conf);
 		// 输入测试文件的路径
-		Path inputPath = new Path("wordcount.txt");
+		Path inputPath = new Path("Data:\\wordcount.txt");
 		// 输出结果的文件路径
 		Path outputPath = new Path("output");
 		if(fs.exists(outputPath)) {
@@ -81,9 +87,9 @@ public class WordCount {
 		FileInputFormat.setInputPaths(job, inputPath);
 		FileOutputFormat.setOutputPath(job, outputPath);
 		// 提交作业等待执行完成，该方法的布尔参数为true表示把作业进度写到控制台
-		boolean isdone = job.waitForCompletion(true);
+		boolean isDone = job.waitForCompletion(true);
 		// 执行成功或失败，这个布尔值被转换成程序退出的代码0或1
-		if(isdone) {
+		if(isDone) {
 			System.out.println("执行成功");
 		}else {
 			System.out.println("执行失败");
