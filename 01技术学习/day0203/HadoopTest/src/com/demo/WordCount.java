@@ -77,7 +77,7 @@ public class WordCount {						      // KEYIN, VALUEIN, KEYOUT, VALUEOUT
 
 		FileSystem fs = FileSystem.get(conf);
 		// 输入测试文件的路径
-		Path inputPath = new Path("Data:\\wordcount.txt");
+		Path inputPath = new Path("51job_salary.txt");
 		// 输出结果的文件路径
 		Path outputPath = new Path("output");
 		if(fs.exists(outputPath)) {

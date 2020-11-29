@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/Data/51job_salary.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Data/orderproduct.txt" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/output/part-r-00000" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/com/demo/StudentScore1MR.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/output/salaryOut/part-r-00000" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/com/demo/StudentScore1MR.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/com/demo/StudentScore1_1MR.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/com/demo/WordCount.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/com/demo/WordCountTop.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/com/demo/homework/Top2Price.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/com/demo/salary/Jobmain.java" charset="GBK" />
   </component>
 </project>

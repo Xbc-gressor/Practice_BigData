@@ -1,0 +1,38 @@
+1. 打开n个虚拟机
+	vim /etc/hosts 修改对应的master和worker的ip地址为虚拟机的地址
+													(ip addr)
+
+2. 在master上启动`namenode` `datanode`，在worker上启动`datanode`
+		hdfs --daemon start namenode
+	在master和worker上启动 `yarn资源管理器` 
+		yarn --deamon start resourcemanager
+		yarn --deamon start nodemanager
+	主机  
+
+		hdfs --daemon start namenode
+		hdfs --daemon start datanode
+		yarn --daemon start resourcemanager
+		yarn --daemon start nodemanager
+
+	从机
+		hdfs --daemon start datanode
+		yarn --daemon start nodemanager
+
+  hadoop 三大核心组件
+	* HDFS（Hadoop Distribute File System）：hadoop的数据存储工具。
+	* YARN（Yet Another Resource Negotiator,另一种资源协调者）：Hadoop 的资源管理器。
+		Apache Hadoop YARN （Yet Another Resource Negotiator，另一种资源协调者）是一种新的 Hadoop 资源管理器，它是一个通用资源管理系统，可为上层应用提供统一的资源管理和调度，它的引入为集群在利用率、资源统一管理和数据共享等方面带来了巨大好处。通过YARN，不同计算框架可以共享同一个HDFS集群上的数据，享受整体的资源调度。
+	* Hadoop MapReduce:分布式计算框架
+	
+3. http://10.128.140.126:9870/
+	9870 在`hdfs-site.xml`中可以获取
+	
+
+4. hadoop 有两种运行模式，一种是在本地运行，一中是在集群环境运行。
+	在代码中修改读入数据和输出的路径：
+		hdfs:\\hadoop-master:900\\~~
+			 在`core-site.xml`中获取
+
+	将Java工程文件导出为jar包
+		1. 直接打包，包较大
+		2. 用maven插件打包，包较小
